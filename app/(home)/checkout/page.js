@@ -56,6 +56,14 @@ const Checkout = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      const token = localStorage.getItem('token');
+        const getHeaders = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          withCredentials: true
+        };   
       await axios.post(`${apiUrl}/orders`, { cartItems, address }, getHeaders);
       // Handle successful checkout
       setAddress({
@@ -67,6 +75,11 @@ const Checkout = () => {
         postalCode: '',
         country: ''
       });
+      Swal.fire({
+              icon: 'success',
+              title: 'Order Genarated',
+              text: 'Order Genarated successfully!',
+            });
       dispatch(setItems([])); // Clear cart items
     } catch (error) {
       console.error("Error during checkout:", error);
@@ -93,7 +106,7 @@ const Checkout = () => {
                 name="name"
                 value={address.name}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
+                className="w-full px-3 py-2 border rounded text-gray-700"
                 required
               />
             </div>
@@ -104,7 +117,7 @@ const Checkout = () => {
                 name="email"
                 value={address.email}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
+                className="w-full px-3 py-2 border rounded text-gray-700"
                 required
               />
             </div>
@@ -115,7 +128,7 @@ const Checkout = () => {
                 name="phone"
                 value={address.phone}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
+                className="w-full px-3 py-2 border rounded text-gray-700"
                 required
               />
             </div>
@@ -126,7 +139,7 @@ const Checkout = () => {
                 name="address"
                 value={address.address}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
+                className="w-full px-3 py-2 border rounded text-gray-700"
                 required
               />
             </div>
@@ -137,7 +150,7 @@ const Checkout = () => {
                 name="city"
                 value={address.city}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
+                className="w-full px-3 py-2 border rounded text-gray-700"
                 required
               />
             </div>
@@ -148,7 +161,7 @@ const Checkout = () => {
                 name="postalCode"
                 value={address.postalCode}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
+                className="w-full px-3 py-2 border rounded text-gray-700"
                 required
               />
             </div>
@@ -159,7 +172,7 @@ const Checkout = () => {
                 name="country"
                 value={address.country}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded"
+                className="w-full px-3 py-2 border rounded text-gray-700"
                 required
               />
             </div>

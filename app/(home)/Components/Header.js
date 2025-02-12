@@ -57,9 +57,9 @@ const Header = () => {
         </div>
         <nav className="hidden md:flex space-x-4">
           <Link href="/" className="text-gray-600 hover:text-gray-800">Home</Link>
-          <Link href="/shop" className="text-gray-600 hover:text-gray-800">Shop</Link>
-          <Link href="/about" className="text-gray-600 hover:text-gray-800">About</Link>
-          <Link href="/contact" className="text-gray-600 hover:text-gray-800">Contact</Link>
+          <Link href="#" className="text-gray-600 hover:text-gray-800">Shop</Link>
+          <Link href="#" className="text-gray-600 hover:text-gray-800">About</Link>
+          <Link href="#" className="text-gray-600 hover:text-gray-800">Contact</Link>
         </nav>
         <div className="flex items-center space-x-4">
           {isLoggedIn ? (
