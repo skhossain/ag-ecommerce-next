@@ -5,14 +5,7 @@ import CreateProductForm from "../Components/CreateProductForm";
 import ProductList from "../Components/ProductList";
 import { Suspense } from "react";
 
-const token = localStorage.getItem('token');
-const getHeaders = {
-  headers: {
-  Authorization: `Bearer ${token}`,
-  'Content-Type': 'application/json'
-  },
-  withCredentials: true
-};
+
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -24,6 +17,13 @@ const ProductsPage = () => {
   }, []);
 
   const fetchProducts = (page = 1) => {
+    const getHeaders = {
+      headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+      },
+      withCredentials: true
+    };
     axios.get(`${apiUrl}/product-list?page=${page}`,getHeaders).then((response) => {
     setProducts(response.data.data);
     // console.log(response.data.links); 

@@ -1,23 +1,31 @@
 'use client';
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import axios from 'axios';
 
 const Header = () => {
-  const token = localStorage.getItem('token');
-const getHeaders = {
-  headers: {
-  Authorization: `Bearer ${token}`,
-  'Content-Type': 'application/json'
-  },
-  withCredentials: true
-}; 
+const [token, setToken] = useState(null);
+
+useEffect(() => { 
+  setToken(localStorage.getItem('token'));
+}, []);
+
   const handleLogout = async () => {
     try {
       let api_url = process.env.NEXT_PUBLIC_API_URL;
+
+      const getHeaders = {
+        headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      }; 
+
       if (!api_url) {
         console.error('NEXT_PUBLIC_API_URL is not defined in .env file');
         return;
       }
+  
       await axios.post(api_url + '/logout', {}, getHeaders);
       localStorage.removeItem('token');
       localStorage.removeItem('user');

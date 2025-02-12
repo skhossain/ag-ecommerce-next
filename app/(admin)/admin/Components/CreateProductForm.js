@@ -15,15 +15,6 @@ const CreateProductForm = ({ fetchProducts }) => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
-const token = localStorage.getItem('token');
-const getHeaders = {
-  headers: {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "multipart/form-data", 
-  },
-  withCredentials: true
-};
-
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const handleInputChange = (e) => {
@@ -43,7 +34,15 @@ const getHeaders = {
     Object.keys(formData).forEach((key) => {
       formDataObj.append(key, formData[key]);
     });
-
+    
+    const token = localStorage.getItem('token');
+    const getHeaders = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data", 
+      },
+      withCredentials: true
+    };
     axios.post(`${apiUrl}/products`, formDataObj, getHeaders).then(() => {
       setFormData({
           name: "",

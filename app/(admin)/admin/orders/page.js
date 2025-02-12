@@ -6,29 +6,33 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const token = localStorage.getItem('token');
-  const getHeaders = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    withCredentials: true
-  };
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/orders`, getHeaders);
-        setOrders(response.data.data);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchOrders();
-  }, [apiUrl]);
+  }, []);
+
+  
+
+  const fetchOrders = async () => {
+    try {
+      // Ensure localStorage is only accessed on the client side
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      const getHeaders = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      };
+  
+      const response = await axios.get(`${apiUrl}/orders`, getHeaders);
+      setOrders(response.data.data);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;

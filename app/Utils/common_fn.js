@@ -1,5 +1,6 @@
 'use client';
 import axios from "axios";
+import React,{useEffect,useState} from 'react';
 
 export function getCookie(name) {
     if (typeof document === 'undefined') return undefined; // Ensure it's client-side
@@ -14,12 +15,20 @@ export function getCookie(name) {
     return undefined; // Return undefined if the cookie is not found
 }
 
-export function getHeaders(token){
-    return {
+export function getHeaders(){
+    const [token, setToken] = useState(null);
+    
+    useEffect(() => { 
+      setToken(localStorage.getItem('token'));
+    }, []);
+    const getHeaders = {
+        headers: {
         Authorization: `Bearer ${token}`,
-        'X-XSRF-TOKEN': getCookie('XSRF-TOKEN') || '',
         'Content-Type': 'application/json'
-    };
+        },
+        withCredentials: true
+      }; 
+    return getHeaders;
 }
 
 

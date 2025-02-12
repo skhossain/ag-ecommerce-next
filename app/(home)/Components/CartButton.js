@@ -9,19 +9,20 @@ const CartButton = ({ product }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const token = localStorage.getItem('token');
-    const getHeaders = {
-    headers: {
-    Authorization: `Bearer ${token}`,
-    'Content-Type': 'application/json'
-    },
-    withCredentials: true
-    };
+  
 
   const addToCart = async () => {
     
     try {
       setLoading(true);
+      const token = localStorage.getItem('token');
+        const getHeaders = {
+        headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+        },
+        withCredentials: true
+        };
         let qty =1;
         const response = await axios.post(`${apiUrl}/cart`, { product_id: product.id,quantity:qty },getHeaders);
         dispatch(addItem(response.data));

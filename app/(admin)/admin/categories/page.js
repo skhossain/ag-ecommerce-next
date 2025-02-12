@@ -10,20 +10,22 @@ const Categories = () => {
   const [categoryToEdit, setCategoryToEdit] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const token = localStorage.getItem('token');
-  const getHeaders = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    withCredentials: true
-  };
-
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+  useEffect(() => {
+    fetchCategories();
+  }, [apiUrl]);
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/category-list`,getHeaders);
+      const getHeaders = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      };
+      const response = await axios.get(`${apiUrl}/category-list`, getHeaders);
       setCategories(response.data.data);
       setPagination(response.data.links);
     } catch (error) {
@@ -36,14 +38,10 @@ const Categories = () => {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
-    setCategoryToEdit(null);
-    setIsModalOpen(false);
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+  // const closeModal = () => {
+  //   setCategoryToEdit(null);
+  //   setIsModalOpen(false);
+  // };
 
   return (
     <div className="bg-gray-100 dark:bg-gray-800 w-full">

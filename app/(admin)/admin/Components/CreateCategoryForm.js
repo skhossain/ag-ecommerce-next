@@ -1,26 +1,31 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from 'sweetalert2';
 
 const CreateCategoryForm = ({ fetchCategories, categoryToEdit }) => {
   const [categoryName, setCategoryName] = useState(categoryToEdit ? categoryToEdit.name : "");
-  const [loading, setLoading] = useState(false);
-
-  const token = localStorage.getItem('token');
-  const getHeaders = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    withCredentials: true
-  };
-
+  const [loading, setLoading] = useState(false);  
+  const [token, setToken] = useState(null);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  
+  useEffect(() => { 
+    setToken(localStorage.getItem('token'));
+  }, []);
+
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+
+    const getHeaders = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      withCredentials: true
+    };
 
     const request = categoryToEdit
       ? axios.put(`${apiUrl}/categories/${categoryToEdit.id}`, { name: categoryName }, getHeaders)

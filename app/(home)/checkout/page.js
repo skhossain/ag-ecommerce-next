@@ -20,14 +20,7 @@ const Checkout = () => {
   });
   const [loading, setLoading] = useState(false);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const token = localStorage.getItem('token');
-  const getHeaders = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    withCredentials: true
-  };   
+  
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -37,6 +30,14 @@ const Checkout = () => {
 
     const fetchCartItems = async () => {
       try {
+        const token = localStorage.getItem('token');
+        const getHeaders = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          withCredentials: true
+        };   
         const response = await axios.get(`${apiUrl}/cart`, getHeaders);
         dispatch(setItems(response.data));
       } catch (error) {
