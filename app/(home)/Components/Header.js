@@ -26,24 +26,24 @@ const Header = () => {
     }
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
       let api_url = process.env.NEXT_PUBLIC_API_URL;
       if (!api_url) {
         console.error('NEXT_PUBLIC_API_URL is not defined in .env file');
         return;
       }
-      axios.post(api_url + '/logout', {}, {
+      await axios.post(api_url + '/logout', {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
         withCredentials: true,
-      }).then(() => {;
+      })
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       setIsLoggedIn(false);
       window.location.href = '/';
-      });
+      
     } catch (error) {
       console.error('Logout failed:', error);
     }
