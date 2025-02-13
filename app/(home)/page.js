@@ -26,7 +26,9 @@ export default async function Home() {
         {products.length > 0 ? (
           products.map((product) => (
             <div key={product.id} className="bg-white text-gray-600 shadow-md rounded-lg overflow-hidden">
-              <Image src={`${url}/${product.image_url}`} alt={product.name} width={500} height={500} className="w-full h-64 object-cover" />
+              <div className="h-48 mb-4 overflow-hidden">
+                <Image src={`${url}/${product.image_url}`} alt={product.name} width={500} height={500} className="object-center" />
+              </div>
               <div className="p-4">
                 <h2 className="text-xl font-bold mb-2">{product.name}</h2>
                 <p className="text-gray-600 mb-4">{product.price} TK</p>
